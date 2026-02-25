@@ -3,6 +3,8 @@
 메인 컬러 하나를 기준으로 다단계 색상 팔레트를 생성하고,
 바로 UI 테마(라이트/다크) 샘플에 적용해볼 수 있는 Next.js 기반 컬러 도구입니다.
 
+🎨 [색상 테마 팔레트 생성기](https://color-theme-palette-generator.vercel.app/)
+
 ## 주요 기능
 
 - 메인 컬러 선택(`input[type=color]`)
