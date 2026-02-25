@@ -1,16 +1,34 @@
-import Image from "next/image";
+// src/app/page.tsx
+"use client";
+
+import { useState, useMemo } from 'react';
+import { generatePalette } from './lib/color-utils';
+import ColorCard from './components/ColorCard';
+import Header from './components/Header';
+import { ColorPanel } from './components/ColorPanel';
+import { ColorThemeSample } from './components/ColorThemeSample';
 
 export default function Home() {
+      const [mainColor, setMainColor] = useState<string>('#3b82f6'); // 기본 블루
+      const [divideCount, setDivideCount] = useState<number>(10);    // x값
+  // 성능 최적화를 위해 컬러 계산 결과 메모이제이션
+  const palette = useMemo<string[]>(() => {
+    return generatePalette(mainColor, divideCount);
+  }, [mainColor, divideCount]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <h1 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-7xl">
-          Welcome to{" "}
-          <a href="https://nextjs.org" className="text-blue-600">
-            Next.js!
-          </a>
-        </h1>
-      </main>
-    </div>
+    <main className="max-w-6xl mx-auto p-6 flex flex-col gap-12">
+      
+      {/* 컬러 패널 */}
+      <ColorPanel mainColor={mainColor} divideCount={divideCount} setMainColor={setMainColor} setDivideCount={setDivideCount} />
+       <ColorThemeSample palette={palette} />
+      {/* 컬러 카드 그리드 */}
+      <section className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-6">
+        {palette.map((color, index) => (
+          <ColorCard key={`${color}-${index}`} hex={color} />
+        ))}
+      </section>
+     
+    </main>
   );
 }
